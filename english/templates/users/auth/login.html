@@ -3,12 +3,17 @@
 {% load static %}
 
 <div class="container">
-        {% include 'includes/auth_form.html' %}
-        <div class="text-center">
-            <p>
-                <a href="{% url 'users:password_reset' %}" class="text-white">Забыли пароль?</a>
-            </p>
-        </div>
+    {% if message %}
+    <div class="alert alert-danger" role="alert">
+        {{message}}
+    </div>
+    {% endif %}
+    {% include 'includes/auth_form.html' %}
+    <div class="text-center">
+        <p>
+            <a href="{% url 'users:password_reset' %}" class="text-white">Забыли пароль?</a>
+        </p>
+    </div>
 </div>
 
 {% endblock %}

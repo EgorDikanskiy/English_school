@@ -189,3 +189,15 @@ class LoginView(generic.View):
         self.context['form'] = form
         return render(request, self.template, self.context)
 
+    def post(self, request):
+        form = CustomLoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+            )
+            if user is not None:
+                login(request, user)
+                return redirect('/auth/profile/')
+        message = 'Введите верный логин и пароль!'
+        return render(request, self.template, context={'form': form, 'message': message})
