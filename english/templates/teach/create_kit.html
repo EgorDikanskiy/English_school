@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% block title %}<title>Добавление нового набора</title>{% endblock %}
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="btn btn-primary" value="подтвердить" title="подтвердить"/>
+    </form>
+</div>
+
+{% endblock %}

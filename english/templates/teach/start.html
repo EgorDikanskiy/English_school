@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% block title %}<title>Карточки</title>{% endblock %}
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <img src="{% static 'img/person.png' %}" style="width: 80%;"
+                 class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+        </div>
+        <div class="col-md-6 text-start">
+            <h1 class="gradient-text mb-4">English it's simple!</h1>
+            <p class="mb-4">Учи английские слова
+                максимально эффективно <br>
+                в удобном формате карточек</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn custom-btn mt-2"><span>Начать обучение</span></button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

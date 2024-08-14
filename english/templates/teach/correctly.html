@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="my_card mb-3" style="max-width: 18rem;">
+    <div class="card-header text-white">Отлично!</div>
+    <div class="card-body text-success">
+        <h5 class="card-title text-white">Это правильный ответ</h5>
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary mt-2" value="Дальше" title="Дальше">
+        </form>
+    </div>
+</div>
+{% endblock %}

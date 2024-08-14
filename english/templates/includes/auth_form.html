@@ -1,0 +1,41 @@
+{% for message in messages %}
+<div class="text-center">
+{% if "success" in message.tags %}
+<div class="success-message alert alert-success">{{ message }}</div>
+{% elif "warning" in message.tags %}
+<div class="warning-message alert alert-warning">{{ message }}</div>
+{% elif "error" in message.tags %}
+<div class="error-message alert alert-danger">{{ message }}</div>
+{% endif %}
+</div>
+{% endfor %}
+{% with request.resolver_match.view_name as view_name %}
+<div class="d-flex {% if view_name != 'catalog:spot_detail' %}justify-content-center{% endif %}">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+      {% for field in form %}
+      <div class="form-label {% if field.errors %}error{% endif %}">
+        <label class="control-label" for="{{field.id_for_label}}">{{ field.label|capfirst }}</label>
+        <div class="controls">
+          {{field}}
+          <h6>{{field.help_text}}</h6>
+          {% if form.errors %}
+          <span class="help-inline">
+                                {% for error in field.errors %}
+                                    <div class="text-warning">
+                                        {{ error|escape }}
+                                    </div> 
+                                {% endfor %}
+                            </span>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      <div class="{% if view_name != 'catalog:spot_detail' and view_name != 'catalog:create_spot' %}text-center{% endif %}">
+        <input type="submit" class="btn btn-primary" value="Подтвердить" title="Подтвердить"/>
+      </div>
+    </div>
+  </form>
+  {% endwith %}
+</div>

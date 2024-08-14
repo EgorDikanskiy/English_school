@@ -1,0 +1,257 @@
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.my_card {
+    width: 30%;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+
+    /* Настройки Bootstrap переменных */
+    --bs-card-spacer-y: 1rem;
+    --bs-card-spacer-x: 1rem;
+    --bs-card-title-spacer-y: 0.5rem;
+    --bs-card-title-color: #232F47; /* Цвет заголовка карточки */
+    --bs-card-subtitle-color: #46466A; /* Цвет подзаголовка карточки */
+    --bs-card-border-width: 3px;
+    --bs-card-border-color: #FF637B; /* Цвет границы карточки */
+    --bs-card-border-radius: 0.75rem;
+    --bs-card-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень карточки */
+    --bs-card-inner-border-radius: calc(var(--bs-border-radius) - var(--bs-card-border-width));
+    --bs-card-cap-padding-y: 0.5rem;
+    --bs-card-cap-padding-x: 1rem;
+    --bs-card-cap-bg: rgba(0, 0, 0, 0.03);
+    --bs-card-cap-color: #232F47;
+    --bs-card-height: auto; /* Автоматическая высота карточки */
+    --bs-card-color: #46466A;
+    --bs-card-bg: #46466A; /* Фон карточки */
+    --bs-card-img-overlay-padding: 1rem;
+    --bs-card-group-margin: 0.75rem;
+
+    /* Основные стили */
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: var(--bs-card-bg);
+    background-clip: border-box;
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    border-radius: var(--bs-card-border-radius);
+    box-shadow: var(--bs-card-box-shadow);
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(to bottom, #3D4B65, #232F47);
+    display: flex;
+    font-family: Arial, sans-serif;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+
+p {
+    font-size: 1.2rem;
+}
+
+.custom-btn {
+    background: linear-gradient(to right, #FE86A4, #FF537B);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 25px;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s ease;
+}
+
+.custom-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: white;
+    transition: all 0.5s ease;
+    z-index: 1;
+}
+
+.custom-btn:hover::before {
+    left: 0;
+}
+
+.custom-btn:hover {
+    color: black;
+}
+
+.custom-btn span {
+    position: relative;
+    z-index: 2;
+}
+
+.custom-btn2 {
+    background-color: #576683;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-btn2:hover {
+    background-color: #6b7a9a;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+}
+
+nav .btn + .btn {
+    margin-left: 10px;
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.gradient-text {
+    font-weight: bold;
+    background: linear-gradient(to right, #F78899, #FC577A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+footer {
+    width: 100%;
+    background-color: #232F47;
+}
+
+footer .gradient-text {
+    font-weight: bold;
+    background: linear-gradient(to right, #F78899, #FC577A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #F78899;
+}
+
+.small-text {
+    font-size: 0.875rem; /* Уменьшенный размер шрифта */
+}
+
+input[type="submit"].btn-primary {
+    background: linear-gradient(to bottom, #FEC39A, #FF488B); /* Градиентный фон */
+    color: white; /* Цвет текста */
+    border: none; /* Убираем стандартные границы */
+    padding: 10px 20px; /* Внутренние отступы */
+    border-radius: 25px; /* Скругленные углы */
+    box-shadow: 0 4px 0 white; /* Белый "stroke" снизу */
+    transition: all 0.3s ease; /* Плавный переход для всех изменений */
+    cursor: pointer; /* Курсор указателя */
+}
+
+
+input[type="submit"].btn-primary:hover {
+    transform: scale(1.05);
+}
+
+input[type="submit"].btn-primary:active {
+    box-shadow: None; /* Белый "stroke" снизу */
+    transform: translateY(4px);
+}
+
+.custom_input {
+    width: 100%;
+    height: 50px;
+    background-color: transparent; /* Прозрачный фон */
+    border: 1px solid white; /* Белая рамка */
+    color: white; /* Белый цвет текста */
+    padding: 10px 15px; /* Внутренние отступы */
+    border-radius: 25px; /* Скругленные углы */
+    outline: none; /* Убираем стандартное выделение */
+    font-size: 1rem; /* Размер шрифта */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для рамки и тени */
+}
+
+.custom_input::placeholder {
+    color: rgba(255, 255, 255, 0.6); /* Полупрозрачный белый текст для плейсхолдера */
+}
+
+.custom_input:focus {
+    background-color: transparent; /* Прозрачный фон */
+    border: 1px solid white; /* Белая рамка */
+    color: white; /* Белый цвет текста */
+    padding: 10px 15px; /* Внутренние отступы */
+    border-radius: 25px; /* Скругленные углы */
+    outline: none; /* Убираем стандартное выделение */
+    font-size: 1rem; /* Размер шрифта */
+    }
+
+
+.catalog_card {
+    background-color: #46466A;
+    border: 3px solid #F78899;
+    border-radius: 25px; /* Скругленные углы */
+    color: white;
+}
+
+.btn-outline-secondary {
+    border-color: #FF637B; /* Розовая обводка */
+    color: #FF637B; /* Розовый цвет текста */
+    border-width: 2px;
+    transition: all 0.3s ease; /* Плавный переход при наведении */
+}
+
+.btn-outline-secondary:hover {
+    background-color: #FF637B; /* Розовый фон при наведении */
+    color: white; /* Белый цвет текста при наведении */
+    border-width: 2px;
+    border-color: #FF637B; /* Сохранение розовой обводки */
+}

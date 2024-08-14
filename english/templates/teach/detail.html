@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% block title %}<title>Карточка</title>{% endblock %}
+<div class="container">
+    <div class="d-flex my_card">
+            <h1 class="gradient-text">{{ card_info.word }}</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {% for field in form %}
+                    <div class="form-label {% if field.errors %}error{% endif %}">
+                        <label class="control-label" for="{{field.id_for_label}}">{{ field.label|capfirst }}</label>
+                        <div class="controls">
+                            {{field}}
+                            <h6>{{field.help_text}}</h6>
+                            {% if form.errors %}
+                            <span class="help-inline">
+                                {% for error in field.errors %}
+                                    <div class="text-warning">
+                                        {{ error|escape }}
+                                    </div>
+                                {% endfor %}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <input type="submit" class="btn btn-primary mt-3" value="Отправить" title="Отправить"/>
+                </div>
+            </form>
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Confirmation</title>
+</head>
+<body>
+    <div style="max-width: 600px; margin: 0 auto;">
+        <h2>Информация об аккаунте</h2>
+        <p>Дорогой {{ username }},</p>
+        <p>Спасибо за регистрацию аккаунта. Для активации перейдите по ссылке:</p>
+        <p><a href="{{ confirmation_link }}">активация</a></p>
+        <p>Если вы не запрашивали это - проигнорируйте. Ваш аккаунт останется неактивным.</p>
+        <p>С Уважением, <br>Команда www.klevoemestechko.store!</p>
+    </div>
+</body>
+</html>
