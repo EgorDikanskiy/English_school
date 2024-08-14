@@ -36,6 +36,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 
 LOGIN_REDIRECT_URL = '/auth/profile/'
 LOGIN_URL = '/auth/login/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 

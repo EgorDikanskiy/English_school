@@ -223,3 +223,10 @@ class MyKitsView(View):
         )
         self.context['kits'] = kits
         return render(request, self.template_name, self.context)
+
+
+class AboutView(View):
+    template_name = "teach/about.html"
+
+    def get(self, request):
+        return render(request, self.template_name)

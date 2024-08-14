@@ -34,5 +34,10 @@ urlpatterns = [
         'my_kits',
         views.MyKitsView.as_view(),
         name="my_kits",
+    ),
+    path(
+        'about',
+        views.AboutView.as_view(),
+        name="about",
     )
 ]

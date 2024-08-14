@@ -255,3 +255,30 @@ input[type="submit"].btn-primary:active {
     border-width: 2px;
     border-color: #FF637B; /* Сохранение розовой обводки */
 }
+
+.jumbotron h1 {
+	font-weight: bold;
+	background: linear-gradient(to right, #F78899, #FC577A);
+	-webkit-background-clip: text;
+	color: transparent;
+}
+
+.section-title {
+	font-weight: bold;
+	color: #FEC39A;
+	margin-bottom: 1.5rem;
+}
+
+.benefits,
+.team,
+.testimonials {
+	padding: 2rem 0;
+}
+
+.benefit-item {
+	background-color: rgba(255, 255, 255, 0.1);
+	padding: 20px;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	box-shadow: 0px 4px 15px rgba(255, 99, 123, 0.7);
+}
