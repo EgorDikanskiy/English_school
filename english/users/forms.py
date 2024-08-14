@@ -13,7 +13,10 @@ class CustomUserCreateForm(UserCreationForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
-            field.field.widget.attrs["class"] = "form-control"
+            field.field.widget.attrs["class"] = "custom_input"
+
+    password1 = CharField(label="Введите пароль", widget=PasswordInput())
+    password2 = CharField(label="Подтвердите пароль", widget=PasswordInput())
 
     class Meta:
         model = User
@@ -23,6 +26,16 @@ class CustomUserCreateForm(UserCreationForm):
             "password1",
             "password2",
         )
+
+
+class CustomLoginForm(Form):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "custom_input"
+
+    username = CharField(label="Введите имя пользователя")
+    password = CharField(label="Введите пароль", widget=PasswordInput())
 
 
 class CustomUserChangeForm(UserChangeForm):

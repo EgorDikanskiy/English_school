@@ -10,30 +10,20 @@
 </div>
 {% endfor %}
 {% with request.resolver_match.view_name as view_name %}
-<div class="d-flex {% if view_name != 'catalog:spot_detail' %}justify-content-center{% endif %}">
+<div class="d-flex justify-content-center">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="mb-3">
+    <div class="mb-3 catalog_card py-3 px-3">
       {% for field in form %}
       <div class="form-label {% if field.errors %}error{% endif %}">
-        <label class="control-label" for="{{field.id_for_label}}">{{ field.label|capfirst }}</label>
+        <label class="control-label mt-2" for="{{field.id_for_label}}">{{ field.label|capfirst }}</label>
         <div class="controls">
           {{field}}
-          <h6>{{field.help_text}}</h6>
-          {% if form.errors %}
-          <span class="help-inline">
-                                {% for error in field.errors %}
-                                    <div class="text-warning">
-                                        {{ error|escape }}
-                                    </div> 
-                                {% endfor %}
-                            </span>
-          {% endif %}
         </div>
       </div>
       {% endfor %}
       <div class="{% if view_name != 'catalog:spot_detail' and view_name != 'catalog:create_spot' %}text-center{% endif %}">
-        <input type="submit" class="btn btn-primary" value="Подтвердить" title="Подтвердить"/>
+        <input type="submit" class="btn btn-primary mt-2" value="Подтвердить" title="Подтвердить"/>
       </div>
     </div>
   </form>

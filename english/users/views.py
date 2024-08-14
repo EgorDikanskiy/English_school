@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseNotAllowed
@@ -14,6 +14,7 @@ from users.forms import (
     EditProfile,
     FormEmailPass,
     FormResetPassword,
+    CustomLoginForm,
 )
 from users.models import User
 from users.utils import email_confirmation_token
@@ -177,3 +178,14 @@ class ChangePasswordDone(generic.TemplateView):
 
 class ResetPasswordDone(generic.TemplateView):
     template_name = PATH + "auth/password_reset_done.html"
+
+
+class LoginView(generic.View):
+    template = PATH + "auth/login.html"
+    context = {}
+
+    def get(self, request):
+        form = CustomLoginForm(request.POST)
+        self.context['form'] = form
+        return render(request, self.template, self.context)
+

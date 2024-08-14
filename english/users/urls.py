@@ -30,10 +30,7 @@ urlpatterns = [
     ),
     path(
         "login/",
-        djangoviews.LoginView.as_view(
-            template_name="users/auth/login.html",
-            redirect_authenticated_user=True,
-        ),
+        views.LoginView.as_view(),
         name="login",
     ),
     path(
