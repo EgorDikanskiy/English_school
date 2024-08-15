@@ -39,5 +39,15 @@ urlpatterns = [
         'about',
         views.AboutView.as_view(),
         name="about",
-    )
+    ),
+    path(
+        'kit_edit/<int:pk>',
+        views.KitEditView.as_view(),
+        name="kit_edit",
+    ),
+    path(
+        'warning_user',
+        views.WarningUserView.as_view(),
+        name="warning_user",
+    ),
 ]

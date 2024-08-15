@@ -52,7 +52,7 @@ class EditProfile(ModelForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
-            field.field.widget.attrs["class"] = "form-control"
+            field.field.widget.attrs["class"] = "custom_input"
         self.fields["avatar"].required = False
         self.fields['is_teacher'].widget.attrs.update({'class': ''})
         self.fields['is_student'].widget.attrs.update({'class': ''})

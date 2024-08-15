@@ -4,10 +4,20 @@
     <div class="card-header text-white">Отлично!</div>
     <div class="card-body text-success">
         <h5 class="card-title text-white">Это правильный ответ</h5>
-        <form method="post">
+        <form method="post" id="myForm">
             {% csrf_token %}
             <input type="submit" class="btn btn-primary mt-2" value="Дальше" title="Дальше">
         </form>
     </div>
 </div>
+<script>
+// Сохраняем текущее состояние
+history.pushState(null, null, location.href);
+
+// Обработчик события popstate
+window.onpopstate = function(event) {
+    // Имитируем клик по кнопке "Дальше"
+    document.querySelector('#myForm input[type="submit"]').click();
+};
+</script>
 {% endblock %}

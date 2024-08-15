@@ -24,6 +24,8 @@ class UserAdministrator(admin.ModelAdmin):
         User.is_superuser.field.name,
         User.is_staff.field.name,
         User.date_joined.field.name,
+        User.all_answers_count.field.name,
+        User.correct_answers_count.field.name,
     )
     exclude = (User.password.field.name,)
 

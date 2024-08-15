@@ -3,7 +3,8 @@ from django.views.generic import View, DetailView
 from django.views.generic.edit import FormMixin
 from teach.models import Card, Kit
 import random
-from teach.forms import TranslateForm, CreateKitForm, CreateCardForm
+from teach.forms import TranslateForm, CreateKitForm, CreateCardForm, EditKitForm
+from users.models import User
 
 
 class DontRepeat:
@@ -148,9 +149,12 @@ class KitCardDetailView(View):
         if request.method == 'POST':
             form = TranslateForm(request.POST)
             self.request.session['_old_post'] = str(self.context['card_info'].translation).split(', ')[0]
+            user = User.objects.get(id=self.request.user.id)
             if form.is_valid():
                 if form.cleaned_data['translate_word'] in str(self.context['card_info'].translation).split(', '):
+                    user.add_correct_answer()
                     return redirect(f"/kit/{kit_pk}/card/{card_pk}/correctly/")
+            user.add_answer()
             return redirect(f"/kit/{kit_pk}/card/{card_pk}/wrong/")
 
 
@@ -230,3 +234,34 @@ class AboutView(View):
 
     def get(self, request):
         return render(request, self.template_name)
+
+
+class WarningUserView(View):
+    template_name = "teach/warning_user.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class KitEditView(View):
+    template_name = "teach/edit_kit.html"
+    model = Kit
+    context = {}
+    form_class = EditKitForm()
+    success_url = '/kits/'
+
+    def get(self, request, pk):
+        if self.request.user.is_teacher and Kit.objects.filter(id=pk).only('user')[0].user == self.request.user:
+            article = Kit.objects.get(id=pk)
+            form = EditKitForm(instance=article)
+            self.context["form"] = form
+            return render(request, self.template_name, self.context)
+        else:
+            return redirect('/warning_user')
+
+    def post(self, request, pk):
+        article = Kit.objects.get(id=pk)
+        form = EditKitForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect(self.success_url)

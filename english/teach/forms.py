@@ -15,7 +15,8 @@ class CreateKitForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
-            field.field.widget.attrs["class"] = "form-control"
+            field.field.widget.attrs["class"] = "custom_input"
+        self.fields['cards'].widget.attrs.update({'class': 'custom_input cards_input'})
 
     class Meta:
         model = Kit
@@ -28,10 +29,25 @@ class CreateCardForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
-            field.field.widget.attrs["class"] = "form-control"
+            field.field.widget.attrs["class"] = "custom_input"
 
     class Meta:
         model = Card
         exclude = (
             Card.user.field.name,
+        )
+
+
+class EditKitForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "custom_input"
+        self.fields['cards'].widget.attrs.update({'class': 'custom_input cards_input'})
+
+    class Meta:
+        model = Kit
+        fields = (
+            Kit.name.field.name,
+            Kit.cards.field.name,
         )

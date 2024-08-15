@@ -50,7 +50,7 @@ class ChangeProfile(ProfileView):
                 request.user.avatar = file
                 request.user.save()
         self.context["form"] = form
-        return render(request, self.template, self.context)
+        return redirect(self.succses_url)
 
 
 class RegisterView(generic.FormView):

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-{% block title %}<title>Добавление нового набора</title>{% endblock %}
+{% block title %}<title>Редактирование набора</title>{% endblock %}
 <div class="container">
     <form method="post">
         {% csrf_token %}
@@ -9,5 +9,4 @@
         <input type="submit" class="btn btn-primary mt-3" value="Подтвердить" title="Подтвердить"/>
     </form>
 </div>
-
 {% endblock %}

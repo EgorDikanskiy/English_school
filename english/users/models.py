@@ -104,6 +104,27 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
     )
 
+    all_answers_count = models.IntegerField(
+        verbose_name="кол-во ответов",
+        default=0,
+    )
+
+    correct_answers_count = models.IntegerField(
+        verbose_name="кол-во правильных ответов ответов",
+        default=0,
+    )
+
+    def add_answer(self):
+        self.all_answers_count += 1
+        self.save()
+
+    def add_correct_answer(self):
+        self.correct_answers_count += 1
+        self.save()
+
+    def get_statistic(self):
+        return round((self.correct_answers_count / self.all_answers_count) * 100, 1)
+
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
