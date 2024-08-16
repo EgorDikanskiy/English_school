@@ -151,7 +151,8 @@ class KitCardDetailView(View):
             self.request.session['_old_post'] = str(self.context['card_info'].translation).split(', ')[0]
             user = User.objects.get(id=self.request.user.id)
             if form.is_valid():
-                if form.cleaned_data['translate_word'] in str(self.context['card_info'].translation).split(', '):
+                if str(form.cleaned_data['translate_word']).lower() in str(self.context['card_info'].translation).split(
+                        ', '):
                     user.add_correct_answer()
                     return redirect(f"/kit/{kit_pk}/card/{card_pk}/correctly/")
             user.add_answer()

@@ -396,3 +396,45 @@ canvas {
     max-width: 600px;
     margin: auto;
 }
+
+@media (max-width: 720px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 0.8rem;
+    }
+
+    .custom-btn {
+        font-size: 0.5rem;
+    }
+
+    .statistic-block {
+	    margin: 0px;
+	    margin-top: 20px;
+	    margin-bottom: 20px;
+    }
+
+    .my_card {
+        width: 80%;
+    }
+}
+
+@media (max-width: 992px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+
+    .custom-btn {
+        font-size: 0.8rem;
+    }
+
+    .my_card {
+        width: 60%;
+    }
+}

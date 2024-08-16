@@ -1,54 +1,56 @@
 {% load static %}
 {% with request.resolver_match.view_name as view_name %}
 <header>
-    <div class="px-3 py-2 text-white dark">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <img src="{% static 'img/logo.png' %}" style="width: 100px;"
-                     class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li class="nav-item">
-                        <a href="{% if view_name != 'teach:teach' %}{% url 'teach:teach' %}{% else %}#
-                  {% endif %}" class="btn custom-btn2 mx-2">
-                            Главная
-                        </a>
-                    </li>
-                     <li class="nav-item">
-                        <a class="btn custom-btn2 mx-2" href="{% url 'teach:kits' %}">Наборы</a>
-                    </li>
-                    {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="btn custom-btn2 mx-2" href="{% url 'users:profile' %}">Профиль</a>
-                    </li>
-                    <li class="nav-item">
-                        <form method="post" action="{% url 'users:logout' %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn custom-btn2 mx-2">Выйти</button>
-                        </form>
-                    </li>
-                    {% if request.user.is_superuser %}
-                    <li class="nav-item">
-                        <a class="btn custom-btn2 mx-2" href="{% url 'admin:index' %}">Администрирование</a>
-                    </li>
-                    {% endif %}
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="btn custom-btn2 mx-2" href="{% url 'users:register' %}">Регистрация</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn custom-btn2 mx-2" href="{% url 'users:login' %}">Вход</a>
-                    </li>
-                    {% endif %}
-                    <li>
-                        <a href="{% url 'teach:about' %}" class="btn custom-btn2 mx-2">
-                            О нас
-                        </a>
-                    </li>
-                </ul>
-
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="px-3 py-2 text-white dark" style="width: 100%;">
+            <div class="container">
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#n_bar"
+                        aria-controls="navbarNavAltMarkup" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse row pt-2" id="n_bar">
+                    <div class="col-lg-2">
+                        <img src="{% static 'img/logo.png' %}" style="width: 100px;"
+                             class="d-none d-lg-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    </div>
+                    <div class="col-lg-10">
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small navbar-nav">
+                            <li class="nav-item mt-1">
+                                <a href="{% if view_name != 'teach:teach' %}{% url 'teach:teach' %}{% else %}#
+                  {% endif %}" class="btn d-block custom-btn2 mx-lg-2 ">
+                                    Главная
+                                </a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="btn custom-btn2  d-block mx-lg-2" href="{% url 'teach:kits' %}">Наборы</a>
+                            </li>
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item mt-3">
+                                <a class="btn custom-btn2  d-block mx-lg-2" href="{% url 'users:profile' %}">Профиль</a>
+                            </li>
+                            {% if request.user.is_superuser %}
+                            <li class="nav-item mt-3">
+                                <a class="btn custom-btn2  d-block mx-lg-2" href="{% url 'admin:index' %}">Администрирование</a>
+                            </li>
+                            {% endif %}
+                            {% else %}
+                            <li class="nav-item mt-3">
+                                <a class="btn custom-btn2  d-block mx-lg-2" href="{% url 'users:register' %}">Регистрация</a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="btn custom-btn2  d-block mx-lg-2" href="{% url 'users:login' %}">Вход</a>
+                            </li>
+                            {% endif %}
+                            <li>
+                                <a href="{% url 'teach:about' %}" class="btn custom-btn2  d-block mx-lg-2 mt-3">
+                                    О нас
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </nav>
 </header>
 {% endwith %}

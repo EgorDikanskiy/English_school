@@ -11,6 +11,10 @@
                 <h1>{{ request.user.username }}</h1>
                 <p>{{ request.user.first_name }} {{ request.user.last_name }}</p>
                 <p>{{request.user.email}}</p>
+                <form method="post" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn custom-btn2 mx-2">Выйти</button>
+                </form>
             </div>
         </div>
         <div class="col-md-6 animated-content">
@@ -26,7 +30,7 @@
         </div>
     </div>
     <div class="row align-items-center">
-        <div class="statistic-block text-center col-md-12">
+        <div class="statistic-block text-center col-12">
             <h2>Статистика правильных ответов</h2>
             <canvas id="myChart"></canvas>
             <p>Правильные ответы: {{ model.get_statistic }}%</p>
