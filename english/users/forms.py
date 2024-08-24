@@ -1,15 +1,38 @@
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
-from django.forms import CharField, EmailField, Form, ModelForm, PasswordInput
+from django.forms import CharField, EmailField, Form, ModelForm, PasswordInput, ChoiceField, ModelMultipleChoiceField
 
-from users.models import User
-
-__all__ = [
-    "CustomUserCreateForm",
-    "CustomUserChangeForm",
-]
+from users.models import Teacher, Student, User
 
 
-class CustomUserCreateForm(UserCreationForm):
+# class AddStudentForm(ModelForm):
+#     def __init__(self, *args, **kwargs) -> None:
+#         super().__init__(*args, **kwargs)
+#         for field in self.visible_fields():
+#             field.field.widget.attrs["class"] = "custom_input"
+#         self.fields['students'].widget.attrs.update({'class': 'custom_input cards_input'})
+#
+#     class Meta:
+#         model = Teacher
+#         fields = (
+#             Teacher.students.field.name,
+#         )
+
+
+class ChoiceStatusForm(Form):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "custom_input"
+
+    CHOICES = (
+        ("1", "Ученик"),
+        ("2", "Учитель"),
+    )
+
+    status = ChoiceField(choices=CHOICES, label='Статус пользователя')
+
+
+class CustomTeacherCreateForm(UserCreationForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
@@ -19,10 +42,29 @@ class CustomUserCreateForm(UserCreationForm):
     password2 = CharField(label="Подтвердите пароль", widget=PasswordInput())
 
     class Meta:
-        model = User
+        model = Teacher
         fields = (
-            User.username.field.name,
-            User.email.field.name,
+            Teacher.username.field.name,
+            Teacher.email.field.name,
+            "password1",
+            "password2",
+        )
+
+
+class CustomStudentCreateForm(UserCreationForm):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "custom_input"
+
+    password1 = CharField(label="Введите пароль", widget=PasswordInput())
+    password2 = CharField(label="Подтвердите пароль", widget=PasswordInput())
+
+    class Meta:
+        model = Student
+        fields = (
+            Student.username.field.name,
+            Student.email.field.name,
             "password1",
             "password2",
         )
@@ -54,8 +96,6 @@ class EditProfile(ModelForm):
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "custom_input"
         self.fields["avatar"].required = False
-        self.fields['is_teacher'].widget.attrs.update({'class': ''})
-        self.fields['is_student'].widget.attrs.update({'class': ''})
 
     class Meta:
         model = User
@@ -64,8 +104,6 @@ class EditProfile(ModelForm):
             User.last_name.field.name,
             User.email.field.name,
             User.avatar.field.name,
-            User.is_teacher.field.name,
-            User.is_student.field.name,
         )
 
 

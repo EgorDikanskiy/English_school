@@ -17,7 +17,7 @@
 }
 
 .my_card {
-    width: 30%;
+    width: 40%;
     position: fixed;
     top: 40%;
     left: 50%;
@@ -386,7 +386,10 @@ input[type="submit"].btn-primary:active {
 }
 
 .statistic-block {
-	margin: 50px;
+	margin: 0 auto;
+	flex: 0 0 100%;
+	padding: 1rem;
+
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -411,7 +414,7 @@ canvas {
     }
 
     .statistic-block {
-	    margin: 0px;
+flex: 0 0 93%;
 	    margin-top: 20px;
 	    margin-bottom: 20px;
     }

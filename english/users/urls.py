@@ -19,6 +19,16 @@ urlpatterns = [
         name="change_profile",
     ),
     path(
+        "register/teacher/",
+        views.RegisterTeacherView.as_view(),
+        name="register_teacher",
+    ),
+    path(
+        "register/student/",
+        views.RegisterStudentView.as_view(),
+        name="register_student",
+    ),
+    path(
         "register/",
         views.RegisterView.as_view(),
         name="register",
@@ -60,4 +70,9 @@ urlpatterns = [
         redirect_required(views.ResetPasswordDone.as_view()),
         name="reset_password_done",
     ),
+    # path(
+    #     "add_student",
+    #     views.AddStudentView.as_view(),
+    #     name="add_student",
+    # ),
 ]

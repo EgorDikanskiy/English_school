@@ -26,6 +26,10 @@ urlpatterns = [
         include("teach.urls"),
     ),
     path(
+        "tasks/",
+        include("tasks.urls"),
+    ),
+    path(
         "auth/",
         include("users.urls"),
     ),

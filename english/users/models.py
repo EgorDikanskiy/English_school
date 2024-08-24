@@ -1,8 +1,8 @@
-from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core import validators
 from django.db import models
+from teach.models import Kit
 
 from users.managers import CustomUserManager
 
@@ -140,6 +140,29 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.avatar:
             return self.avatar.url
         return "/media/avatars/base.jpg"
+
+    def __str__(self):
+        return self.username
+
+
+class Student(User):
+    passed_kits = models.ManyToManyField(
+        Kit,
+        verbose_name='пройденные наборы',
+        blank=True,
+        null=True,
+    )
+
+    def __str__(self):
+        return self.username
+
+
+class Teacher(User):
+    students = models.ManyToManyField(
+        Student,
+        verbose_name='ученики',
+        help_text='Выберите или добавьте ученика',
+    )
 
     def __str__(self):
         return self.username

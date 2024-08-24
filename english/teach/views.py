@@ -1,10 +1,12 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View, DetailView
 from django.views.generic.edit import FormMixin
 from teach.models import Card, Kit
 import random
 from teach.forms import TranslateForm, CreateKitForm, CreateCardForm, EditKitForm
-from users.models import User
+from users.models import User, Teacher, Student
+from teach.serializers import TeacherStudentsSerializer
 
 
 class DontRepeat:
@@ -71,6 +73,12 @@ class CorrectlyView(View):
                     break
                 if len(pr_ids.g(pr_ids)) > len(ids) - 1:
                     pr_ids.r(pr_ids)
+            if set(pr_ids.g(pr_ids)) == set(ids):
+                user_id = self.request.user.id
+                user = Student.objects.get(pk=user_id)
+                kit = Kit.objects.get(pk=kit_pk)
+                user.passed_kits.add(kit.id)
+                return redirect('/passed_kit')
             return redirect(f"/kit/{kit_pk}/card/{card_pk}/")
 
 
@@ -96,6 +104,29 @@ class WrongView(View):
             return redirect(f"/kit/{kit_pk}/card/{card_pk}/")
 
 
+class KitDetailExampleView(DetailView):
+    template_name = "teach/kit_detail.html"
+    context_object_name = 'kit_info'
+    context = {}
+    previous_ids = []
+
+    def get(self, request, pk):
+        return render(request, self.template_name, self.context)
+
+    def post(self, request, pk):
+        if request.method == 'POST':
+            kit_pk = pk
+            ids = Functions.get_cards_kit_ids(self, kit_pk)
+            while True:
+                card_pk = Functions.get_random_pk_from_kit(self, ids)
+                if card_pk not in pr_ids.g(pr_ids):
+                    pr_ids.a(pr_ids, card_pk)
+                    break
+                if len(pr_ids.g(pr_ids)) > len(ids) - 1:
+                    pr_ids.r(pr_ids)
+            return redirect(f"/kit/{kit_pk}/card_example/{card_pk}/")
+
+
 class KitDetailView(DetailView):
     template_name = "teach/kit_detail.html"
     context_object_name = 'kit_info'
@@ -108,16 +139,15 @@ class KitDetailView(DetailView):
     def post(self, request, pk):
         if request.method == 'POST':
             kit_pk = pk
-            if request.method == 'POST':
-                ids = Functions.get_cards_kit_ids(self, kit_pk)
-                while True:
-                    card_pk = Functions.get_random_pk_from_kit(self, ids)
-                    if card_pk not in pr_ids.g(pr_ids):
-                        pr_ids.a(pr_ids, card_pk)
-                        break
-                    if len(pr_ids.g(pr_ids)) > len(ids) - 1:
-                        pr_ids.r(pr_ids)
-                return redirect(f"/kit/{kit_pk}/card/{card_pk}/")
+            ids = Functions.get_cards_kit_ids(self, kit_pk)
+            while True:
+                card_pk = Functions.get_random_pk_from_kit(self, ids)
+                if card_pk not in pr_ids.g(pr_ids):
+                    pr_ids.a(pr_ids, card_pk)
+                    break
+                if len(pr_ids.g(pr_ids)) > len(ids) - 1:
+                    pr_ids.r(pr_ids)
+            return redirect(f"/kit/{kit_pk}/card/{card_pk}/")
 
 
 class KitsView(View):
@@ -157,6 +187,30 @@ class KitCardDetailView(View):
                     return redirect(f"/kit/{kit_pk}/card/{card_pk}/correctly/")
             user.add_answer()
             return redirect(f"/kit/{kit_pk}/card/{card_pk}/wrong/")
+
+
+class KitCardExampleView(View):
+    template_name = "teach/example.html"
+    context_object_name = 'card_info'
+    context = {}
+
+    def get(self, request, kit_pk, card_pk):
+        kit = Kit.objects.get(id=kit_pk)
+        card = kit.cards.get(id=card_pk)
+        self.context['card_info'] = card
+        return render(request, self.template_name, self.context)
+
+    def post(self, request, kit_pk, card_pk):
+        if request.method == 'POST':
+            ids = Functions.get_cards_kit_ids(self, kit_pk)
+            while True:
+                card_pk = Functions.get_random_pk_from_kit(self, ids)
+                if card_pk not in pr_ids.g(pr_ids):
+                    pr_ids.a(pr_ids, card_pk)
+                    break
+                if len(pr_ids.g(pr_ids)) > len(ids) - 1:
+                    pr_ids.r(pr_ids)
+            return redirect(f"/kit/{kit_pk}/card_example/{card_pk}/")
 
 
 class KitCreateView(View, FormMixin):
@@ -266,3 +320,30 @@ class KitEditView(View):
         if form.is_valid():
             form.save()
             return redirect(self.success_url)
+
+
+class AddStudentView(View):
+    def get(self, request, pk):
+        teacher_id = pk
+        student_id = self.request.user.id
+        testmodel_object = Teacher.objects.get(pk=teacher_id)
+        lst = []
+        for el in testmodel_object.students.all():
+            lst.append(el.id)
+        lst.append(student_id)
+        myobj = {
+            "id": teacher_id,
+            "students": lst
+        }
+        serializer = TeacherStudentsSerializer(testmodel_object, data=myobj, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return HttpResponse("OK")
+        return HttpResponse("NOT OK")
+
+
+class PassedKitView(View):
+    template_name = "teach/passed_kit.html"
+
+    def get(self, request):
+        return render(request, self.template_name)

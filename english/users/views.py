@@ -2,21 +2,26 @@ from django.conf import settings
 from django.contrib.auth import login, authenticate
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
+from django.db.models import Prefetch
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import strip_tags
 from django.views import generic
+from tasks.models import TaskList
 
 from users.forms import (
-    CustomUserCreateForm,
+    CustomTeacherCreateForm,
+    CustomStudentCreateForm,
     EditProfile,
     FormEmailPass,
     FormResetPassword,
     CustomLoginForm,
+    ChoiceStatusForm,
+    # AddStudentForm,
 )
-from users.models import User
+from users.models import User, Teacher, Student
 from users.utils import email_confirmation_token
 
 __all__ = []
@@ -29,6 +34,10 @@ class ProfileView(generic.View):
     context = {}
 
     def get(self, request, *args, **kwargs):
+        if self.request.user.is_student:
+            user_id = self.request.user.id
+            tasks = TaskList.objects.get(user_id=user_id)
+            self.context['tasks'] = tasks.kits.all()
         self.context["model"] = request.user
         self.context["form"] = EditProfile(instance=request.user)
 
@@ -53,21 +62,68 @@ class ChangeProfile(ProfileView):
         return redirect(self.succses_url)
 
 
-class RegisterView(generic.FormView):
+class RegisterStudentView(generic.View):
     template_name = PATH + "auth/register.html"
-    form_class = CustomUserCreateForm
     success_url = '/auth/profile/'
+    context = {}
 
-    def form_valid(self, form):
-        normalize_email = User.objects.normalize_email(
-            form.cleaned_data["email"],
-        )
-        form.is_active = settings.DEFAULT_USER_IS_ACTIVE
-        form.email = normalize_email
+    def get(self, request):
+        form = CustomStudentCreateForm(request.POST)
+        self.context['form'] = form
+        return render(request, self.template_name, self.context)
 
-        user = form.save(commit=False)
-        user.save()
-        return super().form_valid(form)
+    def post(self, request):
+        form = CustomStudentCreateForm(request.POST)
+        if form.is_valid():
+            normalize_email = User.objects.normalize_email(
+                form.cleaned_data["email"],
+            )
+            form.is_active = settings.DEFAULT_USER_IS_ACTIVE
+            form.email = normalize_email
+            user = form.save(commit=False)
+            user.save()
+        return redirect(self.success_url)
+
+
+class RegisterTeacherView(generic.View):
+    template_name = PATH + "auth/register.html"
+    success_url = '/auth/profile/'
+    context = {}
+
+    def get(self, request):
+        form = CustomTeacherCreateForm(request.POST)
+        self.context['form'] = form
+        return render(request, self.template_name, self.context)
+
+    def post(self, request):
+        form = CustomTeacherCreateForm(request.POST)
+        if form.is_valid():
+            normalize_email = User.objects.normalize_email(
+                form.cleaned_data["email"],
+            )
+            form.is_active = settings.DEFAULT_USER_IS_ACTIVE
+            form.email = normalize_email
+            user = form.save(commit=False)
+            user.save()
+        return redirect(self.success_url)
+
+
+class RegisterView(generic.View):
+    template = PATH + "auth/choice_status.html"
+    context = {}
+
+    def get(self, request):
+        form = ChoiceStatusForm(request.POST)
+        self.context['form'] = form
+        return render(request, self.template, self.context)
+
+    def post(self, request):
+        form = ChoiceStatusForm(request.POST)
+        if form.is_valid():
+            status = form.cleaned_data['status']
+        if status == '1':
+            return redirect('student/')
+        return redirect('teacher/')
 
 
 class ActivateView(generic.View):
@@ -201,3 +257,24 @@ class LoginView(generic.View):
                 return redirect('/auth/profile/')
         message = 'Введите верный логин и пароль!'
         return render(request, self.template, context={'form': form, 'message': message})
+
+
+# class AddStudentView(generic.View):
+#     template = PATH + "auth/add_student.html"
+#     context = {}
+#     success_url = 'profile/'
+#
+#     def get(self, request):
+#         user_id = self.request.user.id
+#         user = Teacher.objects.get(pk=user_id)
+#         form = AddStudentForm(instance=user)
+#         self.context['form'] = form
+#         return render(request, self.template, self.context)
+#
+#     def post(self, request):
+#         user_id = self.request.user.id
+#         user = Teacher.objects.get(pk=user_id)
+#         form = AddStudentForm(request.POST, instance=user)
+#         if form.is_valid():
+#             form.save()
+#             return redirect(self.success_url)

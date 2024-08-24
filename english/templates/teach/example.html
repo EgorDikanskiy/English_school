@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% block title %}<title>Карточка</title>{% endblock %}
+<div class="container">
+    <div class="d-flex my_card">
+        <h1 class="gradient-text">{{ card_info.word }}</h1>
+        <h6>перевод: </h6>
+        <h2>{{ card_info.translation }}</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary mt-3" value="Дальше" title="Дальше"/>
+        </form>
+    </div>
+</div>
+{% endblock %}

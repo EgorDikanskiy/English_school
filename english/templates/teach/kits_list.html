@@ -9,7 +9,8 @@
                     <p class="card-text">{{ kit.name }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <a href="{% url 'teach:kit_detail' kit.id %}" class="btn btn-sm btn-outline-secondary text-white">Пройти</a>
+                            <a href="{% url 'teach:kit_detail' kit.id %}" class="btn btn-sm btn-outline-secondary text-white">Пройти тест</a>
+                            <a href="{% url 'teach:kit_detail_example' kit.id %}" class="btn btn-sm btn-outline-secondary text-white">Учить слова</a>
                             {% if request.user == kit.user %}
                             <a href="{% url 'teach:kit_edit' kit.id %}" class="btn btn-sm btn-outline-secondary text-white">Редактировать</a>
                             {% endif %}

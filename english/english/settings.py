@@ -34,6 +34,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 
+MEDIA_ROOT = ''
+MEDIA_URL = ''
+
 LOGIN_REDIRECT_URL = '/auth/profile/'
 LOGIN_URL = '/auth/login/'
 LOGOUT_REDIRECT_URL = '/'
@@ -49,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "teach.apps.TeachConfig",
     "users.apps.UsersConfig",
+    "tasks.apps.TasksConfig",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

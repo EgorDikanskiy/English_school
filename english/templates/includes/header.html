@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-lg-10">
                         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small navbar-nav">
-                            <li class="nav-item mt-1">
+                            <li class="nav-item mt-3">
                                 <a href="{% if view_name != 'teach:teach' %}{% url 'teach:teach' %}{% else %}#
                   {% endif %}" class="btn d-block custom-btn2 mx-lg-2 ">
                                     Главная
@@ -41,8 +41,8 @@
                                 <a class="btn custom-btn2  d-block mx-lg-2" href="{% url 'users:login' %}">Вход</a>
                             </li>
                             {% endif %}
-                            <li>
-                                <a href="{% url 'teach:about' %}" class="btn custom-btn2  d-block mx-lg-2 mt-3">
+                            <li  class="nav-item mt-3">
+                                <a href="{% url 'teach:about' %}" class="btn custom-btn2  d-block mx-lg-2">
                                     О нас
                                 </a>
                             </li>

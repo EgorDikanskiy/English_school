@@ -17,7 +17,7 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-6 animated-content">
+        <div class="col-md-6 animated-content p-md-0">
             <div class="profile-info">
                 <p><a class="btn mt-3 container custom-btn" href="{% url 'users:change_profile' %}"><span>Редактировать профиль</span></a>
                 </p>
@@ -26,15 +26,26 @@
                       href="{% url 'teach:kit_create' %}"><span>Добавить набор</span></a></p>
                 <p><a class="btn container custom-btn"
                       href="{% url 'teach:card_create' %}"><span>Добавить карточку</span></a></p>
+                {% if request.user.is_teacher %}
+                <p><a class="btn container custom-btn"
+                      href="{% url 'tasks:choose_student' %}"><span>Добавить задание ученику</span></a></p>
+                {% endif %}
             </div>
         </div>
     </div>
     <div class="row align-items-center">
-        <div class="statistic-block text-center col-12">
+        <div class="statistic-block text-center">
             <h2>Статистика правильных ответов</h2>
             <canvas id="myChart"></canvas>
             <p>Правильные ответы: {{ model.get_statistic }}%</p>
         </div>
+    </div>
+    <div class="row align-items-center profile-info mt-3 mb-3">
+        <h3>Задания от учителя</h3>
+        {% for kit in tasks %}
+        <p class="list-group-item"><a class="btn container custom-btn"
+                                      href="{% url 'teach:kit_detail' kit.id %}"><span>{{ kit.name }}</span></a></p>
+        {% endfor %}
     </div>
 </div>
 <script>

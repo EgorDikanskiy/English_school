@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
+from users.models import Teacher, Student
 
 __all__ = []
 
@@ -30,4 +31,6 @@ class UserAdministrator(admin.ModelAdmin):
     exclude = (User.password.field.name,)
 
 
+admin.site.register(Teacher)
+admin.site.register(Student)
 admin.site.register(User, UserAdministrator)
